@@ -1,0 +1,17 @@
+# curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -d '{
+#     "RECORD_TYPE": 1,
+#     "STATE": "NY",
+#     "GROUP_SIZE": 2,
+#     "HOMEOWNER": 1,
+#     "CAR_AGE": 5,
+#     "CAR_VALUE": "b",
+#     "RISK_FACTOR": 3,
+#     "MARRIED_COUPLE": 0,
+#     "AGE_OLDEST": 45,
+#     "C_PREVIOUS": 1,
+#     "DURATION_PREVIOUS": 2.5,
+#     "A": 0,"B": 1,
+#     "C": 1,
+#     "E": 0,
+#     "G": 1
+# }'

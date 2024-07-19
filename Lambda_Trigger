@@ -1,0 +1,33 @@
+import boto3
+import os
+
+def lambda_handler(event, context):
+    glue = boto3.client('glue')
+
+    # Retrieve environment variables
+    sf_db = os.environ['SfDB']
+    sf_schema = os.environ['sfSCHEMA']
+    sf_secret = os.environ['sfSECRET']
+    sf_table = os.environ['sfTABLE']
+    sf_warehouse = os.environ['sfWAREHOUSE']
+
+    # Loop through each record in the event
+    for record in event['Records']:
+        # Get the bucket name and object key
+        bucket_name = record['s3']['bucket']['name']
+        object_key = record['s3']['object']['key']
+        # Construct the full S3 path
+        s3_path = f's3://{bucket_name}/{object_key}'
+        # Start the Glue job and pass the S3 path as a parameter
+        response = glue.start_job_run(
+            JobName='S3 to Snowflake job',
+            Arguments={
+                '--S3_PATH': s3_path,
+                '--SECRET_NAME': sf_secret,
+                '--SNOWFLAKE_DATABASE': sf_db,
+                '--SNOWFLAKE_SCHEMA': sf_schema,
+                '--SNOWFLAKE_WAREHOUSE': sf_warehouse,
+                '--SNOWFLAKE_TABLE': sf_table
+            }
+        )
+    return response
